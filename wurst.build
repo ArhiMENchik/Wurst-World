@@ -1,0 +1,19 @@
+---
+projectName: Great Journey
+dependencies:
+- https://github.com/wurstscript/wurstStdlib2
+buildMapData:
+  name: Great Journey v0.1
+  fileName: Great Journey
+  author: ArhiMEN
+  scenarioData:
+    loadingScreen:
+      title: Great Journey v0.1
+      subTitle: 'Great Journey v0.1'
+      text: 'Отправимся большое путешествие вместе с героем данной карты.'
+  players:
+    - id: 0
+      name: Игрок 1
+      race: HUMAN
+      controller: USER
+      fixedStartLoc: true

@@ -1,0 +1,11 @@
+package CamAndVis
+
+import ClosureTimers
+
+
+init
+    doAfter(.0) ->
+        bj_lastCreatedFogModifier = CreateFogModifierRect(Player(0), FOG_OF_WAR_VISIBLE, bj_mapInitialPlayableArea, true, false)
+        FogModifierStart(bj_lastCreatedFogModifier)
+        Player(0).cameraSetupApply(true, gg_cam_MainCam, .0)
+        Player(0).panCameraToTimed( vec2(gg_rct_Map.getCenterX(), gg_rct_Map.getCenterY()), .0)

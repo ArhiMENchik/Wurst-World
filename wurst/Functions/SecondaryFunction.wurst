@@ -1,0 +1,42 @@
+package SecondaryFunction
+
+public function unit.isDead() returns bool
+    return this.getLife() < 0.405 or this.isType(UNIT_TYPE_DEAD)
+
+public function unit.isEnemyNew(player p) returns bool
+    return this.isDead() == false and this.getOwner().isEnemyOf(p) and this.getAbilityLevel('Aloc') == 0 and this.getAbilityLevel('Avul') == 0 and this.getAbilityLevel('Bcyc') == 0
+
+public function integer.toModul() returns integer
+    return (this.squared() / this).toInt()
+
+public function real.toModul() returns real
+    return this.squared() / this
+
+public function int.numberBetween(int namber1, int namber2) returns bool
+    return this > namber1 and this < namber2
+
+public function real.numberBetween(real namber1, real namber2) returns bool
+    return this > namber1 and this < namber2
+
+public function unit.select()
+    if GetLocalPlayer() == this.getOwner()
+        ClearSelectionForPlayer(GetLocalPlayer())
+        SelectUnit(this, true)
+
+public function unit.inGroup(group g) returns bool
+    for u from g
+        if u == this
+            return true
+    return false
+
+public function unit.hasBuff(integer buffcode) returns bool
+    return this.getAbilityLevel(buffcode) > 0
+
+function parabolaZ2( real h0, real h1, real h, real d, real d1) returns real
+    return ((4 * h / d) * (d - d1) + h1 - h0) * (d1 / d) + h0
+
+function real.toRad() returns real
+    return this * bj_DEGTORAD
+
+function real.toDeg() returns real
+    return this * bj_RADTODEG

@@ -1,0 +1,34 @@
+package NC
+
+import ClosureTimers
+
+
+init
+    doAfter(0.) ->
+        let HB = CreateLeaderboard()
+        LeaderboardSetLabel(HB, "Handle Counter")
+        PlayerSetLeaderboard(GetLocalPlayer(), HB)
+        LeaderboardDisplay(HB, true)
+        LeaderboardAddItem(HB,"Handles", 0, Player(0))
+        LeaderboardSetSizeByItemCount(HB,1)
+
+        doPeriodically(0.05) cb ->
+            integer i = 0
+            integer _id = 0
+            location array P
+            real result = 0
+
+            while 50 >= i
+                i += 1
+                P[i] = Location(0,0)
+                _id = GetHandleId(P[i])
+                result = result + (_id - 0x100000)
+
+            result = result/i-i/2
+
+            while 1 <= i
+                RemoveLocation(P[i])
+                P[i] = null
+                i = i-1
+
+            LeaderboardSetItemValue(HB, 0, R2I(result))
