@@ -1,0 +1,14 @@
+package Step
+
+import ObjectIdGenerator
+import UnitObjEditing
+import UnitIds
+
+public let STEP_ID = compiletime(UNIT_ID_GEN.next())
+
+
+@compiletime function _StepUnit_()
+    new UnitDefinition(STEP_ID, UnitIds.circleofpower)
+    ..setName("")
+    ..setNormalAbilities("Avul")
+    ..setScalingValue(1.5)

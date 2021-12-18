@@ -32,11 +32,34 @@ public function unit.inGroup(group g) returns bool
 public function unit.hasBuff(integer buffcode) returns bool
     return this.getAbilityLevel(buffcode) > 0
 
-function parabolaZ2( real h0, real h1, real h, real d, real d1) returns real
+public function parabolaZ2( real h0, real h1, real h, real d, real d1) returns real
     return ((4 * h / d) * (d - d1) + h1 - h0) * (d1 / d) + h0
 
-function real.toRad() returns real
+public function real.toRad() returns real
     return this * bj_DEGTORAD
 
-function real.toDeg() returns real
+public function real.toDeg() returns real
     return this * bj_RADTODEG
+
+/**
+    "i" = сделать юнита невидимым
+    "v" = сделать юнита видимым
+    "f" = сделать юнита красным
+    "t" = сделать юнита зелёным
+    "p" = сделать юнита оранжевымм
+    "a" = сделать юнита синимм
+ */
+public function unit.changingVisibility(string variation)
+    switch variation
+        case "i"
+            this.setVertexColor(255, 255, 255, 0)
+        case "v"
+            this.setVertexColor(255, 255, 255, 255)
+        case "f"
+            this.setVertexColor(255, 0, 0, 255)
+        case "t"
+            this.setVertexColor(0, 255, 0, 255)
+        case "p"
+            this.setVertexColor(255, 146, 3, 255)
+        case "a"
+            this.setVertexColor(0, 0, 255, 255)

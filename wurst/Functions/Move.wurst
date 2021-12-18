@@ -1,0 +1,38 @@
+package Move
+
+import RegisterEvents
+import Hero
+import SecondaryFunction
+import ClosureTimers
+import CellSelection
+import StepByStepStart
+
+
+function unit.move()
+    this.hide()
+    let dummy = createUnit(this.getOwner(), DUMMY_MOVE_ID, this.getPos(), this.getFacingAngle())
+    dummy.issuePointOrder("move", movePoint)
+    doPeriodically(0.05) cb ->
+        if dummy.getCurrentOrder() == 0
+            dummy.remove()
+            playerMove = createUnit(Player(0), this.getTypeId(), movePoint, dummy.getFacingAngle())
+            playerMove.addMana(-action.toReal())
+            this.remove()
+            doAfter(.0) -> 
+                cellList.forEach() cell ->
+                    cell.changingVisibility("i")
+                doAfter(.0) -> 
+                    cellList.forEach() cell ->
+                        if cell.getPos() == movePoint
+                            cell.changingVisibility("p")
+                            playerPos = cell
+                            if countOfActions == 0
+                                move = false
+            destroy cb
+
+
+init
+    registerPlayerUnitEvent(EVENT_PLAYER_UNIT_SPELL_CAST) ->
+        if GetSpellAbilityId() == HERO_MOVE_ABIL_ID
+            let caster = GetTriggerUnit()
+            caster.move()

@@ -1,2 +1,73 @@
 package Hero
 
+import UnitIds
+import ChannelAbilityPreset
+import Icons
+
+public let HERO_MOVE_ID = compiletime(UNIT_ID_GEN.next())
+public let DUMMY_MOVE_ID = compiletime(UNIT_ID_GEN.next())
+public let HERO_MOVE_ABIL_ID = compiletime(ABIL_ID_GEN.next())
+public let HERO_MOVE_B_ID = compiletime(ABIL_ID_GEN.next())
+public let HERO_MOVE_R_ID = compiletime(ABIL_ID_GEN.next())
+public let HERO_MOVE_L_ID = compiletime(ABIL_ID_GEN.next())
+public unit HERO_MOVE = null
+
+
+@compiletime function _HeroMove_()
+    new UnitDefinition(HERO_MOVE_ID, UnitIds.villagerman)
+    ..setNormalAbilities("Avul," + commaList(HERO_MOVE_ABIL_ID))
+    ..setSightRadiusDay(1)
+    ..setSightRadiusNight(1)
+    ..setSpeedBase(0)
+    ..setName("Герон")
+    ..setManaMaximum(4)
+    ..setManaInitialAmount(4)
+
+
+@compiletime function _DummyMove_()
+    new UnitDefinition(DUMMY_MOVE_ID, UnitIds.villagerman)
+    ..setNormalAbilities("Aloc")
+    ..setSightRadiusDay(1)
+    ..setSightRadiusNight(1)
+    ..setSpeedBase(190)
+    ..setName("Движение")
+
+
+@compiletime function _MoveF_()
+    new ChannelAbilityPreset(HERO_MOVE_ABIL_ID, 1, true)
+    ..setIconNormal(Icons.bTNMove)
+    ..setTooltipNormal(1, "Двигаться (|cfffbff00Q|r)")
+    ..setTooltipNormalExtended(1, "Приказать вашему герою пройти по зелёным клеткам.")
+    ..setButtonPositionNormalX(0)
+    ..setButtonPositionNormalY(0)
+    ..setHotkeyNormal("Q")
+
+
+@compiletime function _MoveB_()
+    new ChannelAbilityPreset(HERO_MOVE_B_ID, 1, true)
+    ..setIconNormal(Icons.bTNAttack)
+    ..setTooltipNormal(1, "Атаковать (|cfffbff00W|r)")
+    ..setTooltipNormalExtended(1, "")
+    ..setButtonPositionNormalX(1)
+    ..setButtonPositionNormalY(1)
+    ..setHotkeyNormal("W")
+
+
+@compiletime function _MoveR_()
+    new ChannelAbilityPreset(HERO_MOVE_R_ID, 1, true)
+    ..setIconNormal(Icons.bTNSobiMask)
+    ..setTooltipNormal(1, "Вправо")
+    ..setTooltipNormalExtended(1, "")
+    ..setButtonPositionNormalX(2)
+    ..setButtonPositionNormalY(1)
+    ..setHotkeyNormal("D")
+
+
+@compiletime function _MoveL_()
+    new ChannelAbilityPreset(HERO_MOVE_L_ID, 1, true)
+    ..setIconNormal(Icons.bTNSobiMask)
+    ..setTooltipNormal(1, "Влево")
+    ..setTooltipNormalExtended(1, "")
+    ..setButtonPositionNormalX(0)
+    ..setButtonPositionNormalY(1)
+    ..setHotkeyNormal("A")

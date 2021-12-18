@@ -1,0 +1,103 @@
+package CellSelection
+
+import ClosureTimers
+import StepByStepStart
+import Hero
+import StandardTextTags
+import SecondaryFunction
+
+public unit playerPos = null
+public unit playerMove = null
+public int countOfActions = 4
+public bool move = true
+public vec2 movePoint
+public int action
+
+
+function changeColor(string filter, real x, real y, int count, real angle, int max)
+    real _newX = 0
+    real _newY = 0
+
+    if filter == "x"
+        _newX = x + (64 * count) * Cos(angle)
+        _newY = y
+    else if filter == "y"
+        _newX = x
+        _newY = y + (64 * count) * Sin(angle)
+    doAfter(.0) -> 
+        cellList.forEach() cell ->
+            if cell.getX() == _newX and cell.getY() == _newY and countOfActions > 0
+                cell.changingVisibility("t")
+                countOfActions -= 1
+                action += 1
+                if max == count
+                    movePoint = vec2(_newX, _newY)
+            else if cell.getX() == _newX and cell.getY() == _newY and countOfActions == 0
+                cell.changingVisibility("v")
+
+
+function drawing_a_path()
+    if move == true
+        cellList.forEach() cell ->
+            if cell != playerPos
+                cell.changingVisibility("i")
+        countOfActions = playerMove.getMana().toInt()
+
+    if countOfActions > 0
+        let cell = GetTriggerUnit()
+        let playerPosX = playerPos.getX()
+        let playerPosY = playerPos.getY()
+        let cellX = cell.getX()
+        let cellY = cell.getY()
+
+        if playerPosX == cellX and playerPosY == cellY
+            standardTextTag(playerMove.getPos(), "Вы находитесь на этой клетке")
+
+        else if playerPosX == cellX and playerPosY != cellY
+            if cellY > playerPosY
+                let count = ( (cellY - playerPosY) / 64 ).toInt()
+                for i = 1 to count
+                    doAfter(.0) -> 
+                        changeColor("y", playerPosX, playerPosY, i, 90.0.toRad(), count)
+
+            else if cellY < playerPosY
+                let count = ( (playerPosY - cellY) / 64 ).toInt()
+                for i = 1 to count
+                    doAfter(.0) -> 
+                        changeColor("y", playerPosX, playerPosY, i, 270.0.toRad(), count)
+
+        else if playerPosX != cellX and playerPosY == cellY
+            if cellX > playerPosX
+                let count = ( (cellX - playerPosX) / 64 ).toInt()
+                for i = 1 to count
+                    doAfter(.0) -> 
+                        changeColor("x", playerPosX, playerPosY, i, 0.0.toRad(), count)
+
+            else if cellX < playerPosX
+                let count = ( (playerPosX - cellX) / 64 ).toInt()
+                for i = 1 to count
+                    doAfter(.0) -> 
+                        changeColor("x", playerPosX, playerPosY, i, 180.0.toRad(), count)
+
+        else if playerPosX != cellX and playerPosY != cellY
+            standardTextTag(playerMove.getPos(), "Двигаться можно только по прямым")
+
+    else
+        standardTextTag(playerMove.getPos(), "Ваши действия на этом ходу закончились")
+
+
+init
+    doAfter(.05) ->
+        let cellSelectionTrigger = CreateTrigger()
+        doAfter(.0) ->  
+            cellList.forEach() cell ->
+                cellSelectionTrigger.registerUnitEvent(cell, EVENT_UNIT_SELECTED)
+                cell.changingVisibility("i")
+            cellSelectionTrigger.addAction(function drawing_a_path)
+
+        let list = cellList.copy()
+        doAfter(.0) ->
+            list.shuffle()
+            playerPos = list.getFirst()
+            playerPos.changingVisibility("p")
+            playerMove = createUnit(Player(0), HERO_MOVE_ID, playerPos.getPos(), playerPos.getFacingAngle())

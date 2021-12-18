@@ -1,0 +1,41 @@
+package StepByStepStart
+
+import ClosureTimers
+import Step
+import SecondaryFunction
+import LinkedList
+
+public let cellList = new LinkedList<unit>
+
+
+init
+    doAfter(.0) ->
+        let startPos = vec2(0, 0)
+        let length = 10
+        let width = 10
+        let count = length * width
+        unit _now_lenght_ = null
+        unit _now_width_ = null
+        int _length_ = length
+        int _width_ = width
+        
+        for i = 1 to count
+            if i == 1
+                _now_lenght_ = createUnit(Player(PLAYER_NEUTRAL_PASSIVE), STEP_ID, startPos, angle(270))
+                _now_width_ = _now_lenght_
+                cellList.add(_now_lenght_)
+            else
+                if _length_ > 1
+                    let x = _now_lenght_.getX() + 200.0 * Cos(0.0.toRad())
+                    let y = _now_lenght_.getY() + 200.0 * Sin(0.0.toRad())
+                    _now_lenght_ = createUnit(Player(PLAYER_NEUTRAL_PASSIVE), STEP_ID, vec2(x, y), angle(270))
+                    _length_ -= 1
+                    cellList.add(_now_lenght_)
+                else if _length_ == 1 and _width_ > 1
+                    let x = _now_width_.getX() + 200.0 * Cos(90.0.toRad())
+                    let y = _now_width_.getY() + 200.0 * Sin(90.0.toRad())
+                    _now_lenght_ = createUnit(Player(PLAYER_NEUTRAL_PASSIVE), STEP_ID, vec2(x, y), angle(270))
+                    _now_width_ = _now_lenght_
+                    _width_ -= 1
+                    _length_ = length
+                    cellList.add(_now_lenght_)
